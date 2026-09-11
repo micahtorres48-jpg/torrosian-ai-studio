@@ -210,7 +210,7 @@ $("#styleCards").innerHTML = styleOptions.map(style => `
   <article class="option-card">
     <img
       class="style-card-image"
-     src="./Images/torrosian-emblem.png/${styleImages[style]}"
+     src="./${styleImages[style]}"
       alt="${style}"
     >
     <h3>${style}</h3>
