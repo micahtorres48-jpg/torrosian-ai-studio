@@ -15,6 +15,8 @@ const supabase = createClient(
 );
 
 const app = express();
+const APP_URL = process.env.APP_URL || "http://localhost:3000";
+
 
 app.use(cors());
 app.use(express.static(__dirname));
@@ -30,6 +32,7 @@ app.use(express.json({ limit: "10mb" }));
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
 
 app.post("/generate-tattoo", async (req, res) => {
   try {
@@ -183,7 +186,7 @@ app.get("/auth/google", async (req, res) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://127.0.0.1:5500",
+        redirectTo: APP_URL,
         skipBrowserRedirect: true,
       },
     });
@@ -249,8 +252,8 @@ metadata: {
           quantity: 1,
         },
       ],
-      success_url: "http://127.0.0.1:5500/?checkout=success",
-      cancel_url: "http://127.0.0.1:5500/?checkout=cancelled",
+      success_url: `${APP_URL}/?checkout=success`,
+      cancel_url: `${APP_URL}/?checkout=cancelled`,
     });
 
     res.json({ url: session.url });
