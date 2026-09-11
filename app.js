@@ -50,7 +50,7 @@ if (referenceFile) {
     reader.readAsDataURL(referenceFile);
   });
 }
-    const response = await fetch("//generate-tattoo", {
+    const response = await fetch("/generate-tattoo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
