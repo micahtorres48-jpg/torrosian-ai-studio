@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <title>Torrosian Tattoo</title>
+  <link rel="icon" type="image/png" href="Images/torrosian-emblem.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-view="home" aria-label="Torrosian home">
+        <img class="brand-emblem" src="./Images/torrosian-emblem.png/torrosian-emblem.png" alt="Torrosian emblem">
+        <span class="brand-copy">
+          <strong>TORROSIAN</strong>
+          <small>AI TATTOO STUDIO</small>
+        </span>
+      </button>
+
+      <nav class="top-nav" aria-label="Main navigation">
+        <button class="top-link active" data-view="home">HOME</button>
+        <button class="top-link" data-view="generate">GENERATE</button>
+        <button class="top-link" data-view="designs">MY DESIGNS</button>
+        <button class="top-link" data-view="gallery">GALLERY</button>
+        <button class="top-link" data-view="settings">SETTINGS</button>
+      </nav>
+
+      <div class="brand-standard">
+        <span>MORE THAN INK</span>
+        <strong>A HIGHER STANDARD</strong>
+        <i></i>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar">
+        <nav class="side-nav" aria-label="Workspace navigation">
+          <button class="side-link" data-view="generate"><span>✦</span>Generate</button>
+          <button class="side-link" data-view="designs"><span>▧</span>My Designs</button>
+          <button class="side-link" data-view="gallery"><span>▦</span>Gallery</button>
+          <button class="side-link" data-view="styles"><span>◉</span>Styles</button>
+          <button class="side-link" data-view="placements"><span>⌖</span>Placements</button>
+          <button class="side-link" data-view="settings"><span>⚙</span>Settings</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-mountain mountain-small"></div>
+          <p>DISCIPLINE<br>CREATES<br>FREEDOM</p>
+          <div class="sidebar-wordmark">TORROSIAN<small>TATTOO</small></div>
+        </div>
+      </aside>
+
+      <main class="main-stage">
+        <section class="view active home-view" id="homeView">
+          <div class="home-center">
+            <span class="eyebrow">TORROSIAN AI TATTOO STUDIO</span>
+            <h1>Turn your idea <em>into ink.</em></h1>
+            <p>Precision concepts. Premium presentation. Built for ideas worth keeping.</p>
+            <div class="home-actions">
+              <button class="gold-btn" data-view="generate">Generate a Tattoo</button>
+              <button class="ghost-btn" data-view="designs">View My Designs</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="generateView">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">AI-POWERED CONCEPT STUDIO</span>
+              <h2>Generate</h2>
+              <p>Describe the tattoo in your head and build a refined concept.</p>
+            </div>
+          </div>
+
+          <div class="generator-layout">
+            <div class="generator-card">
+              <div class="generator-head">
+                <div><small>NEW DESIGN</small><h3>What do you want to create?</h3></div>
+                <span class="credit-pill" id="creditCount">5 free credits</span>
+              </div>
+
+              <label for="prompt">DESCRIBE YOUR TATTOO</label>
+              <textarea id="prompt" placeholder="Example: A realistic skeleton cowboy turned away, wearing a worn leather jacket, black and grey, dramatic shadows..."></textarea>
+              <div class="reference-upload">
+  <label for="referenceImage">REFERENCE IMAGE <span>(OPTIONAL)</span></label>
+  <input type="file" id="referenceImage" accept="image/png,image/jpeg,image/webp">
+</div>
+
+              <div class="quick-ideas" id="quickIdeas">
+                <button data-idea="A realistic black and grey lion portrait with a cracked crown, dramatic lighting, highly detailed fur">Lion + Crown</button>
+                <button data-idea="A realistic skeleton cowboy turned away wearing a worn leather jacket, western atmosphere, black and grey">Skeleton Cowboy</button>
+                <button data-idea="Two realistic dog portraits, close composition, emotional expression, black and grey realism">Pet Portrait</button>
+                <button data-idea="A black and grey archangel with wings spread, marble texture, rays of light, highly detailed">Archangel</button>
+              </div>
+
+              <div class="control-grid">
+                <div>
+                  <label for="style">STYLE</label>
+                  <select id="style">
+                    <option>Black & Grey Realism</option><option>Color Realism</option><option>Fine Line</option><option>Traditional</option><option>Neo-Traditional</option><option>Japanese</option><option>Chicano</option><option>Geometric</option><option>Lettering</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="placement">PLACEMENT</label>
+                  <select id="placement">
+                    <option>Full Pec</option><option>Forearm</option><option>Upper Arm</option><option>Full Sleeve</option><option>Back</option><option>Neck</option><option>Hand</option><option>Thigh</option><option>Calf</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="slider-grid">
+                <div><div class="slider-title"><span>Detail level</span><b id="detailValue">90%</b></div><input id="detail" type="range" min="30" max="100" value="90"></div>
+                <div><div class="slider-title"><span>Contrast</span><b id="contrastValue">75%</b></div><input id="contrast" type="range" min="20" max="100" value="75"></div>
+              </div>
+
+              <div class="toggle-row">
+                <label class="toggle"><input type="checkbox" id="skinToggle" checked><span></span>Skin-ready shading</label>
+                <label class="toggle"><input type="checkbox" id="stencilToggle"><span></span>Stencil-friendly structure</label>
+              </div>
+
+              <button class="gold-btn full" id="generateBtn">✦ Generate Tattoo Concept</button>
+            </div>
+
+            <section class="result-panel hidden" id="resultPanel">
+              <div class="result-head">
+                <div><small>GENERATED CONCEPT</small><h3 id="resultTitle">Your Torrosian design</h3></div>
+                <div><button class="ghost-btn small" id="saveBtn">Save</button><button class="ghost-btn small" id="copyBtn">Copy Prompt</button></div>
+              </div>
+              <div class="result-grid">
+                <div class="art-placeholder" id="artPlaceholder"><div class="placeholder-emblem">T</div></div>
+                <div class="prompt-card"><small>ARTIST-READY PROMPT</small><p id="optimizedPrompt"></p><button class="ghost-btn" id="regenerateBtn">Refine & Regenerate</button></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="designsView">
+          <div class="section-heading designs-head">
+            <div><h2>My Designs</h2><p>Your saved tattoo designs</p></div>
+            <div class="design-actions"><input id="designSearch" type="search" placeholder="Search your designs..."><button class="gold-btn" data-view="generate">＋ New Design</button></div>
+          </div>
+          <div class="designs-layout">
+            <div class="design-grid" id="designGrid"></div>
+            <aside class="legend-card">
+              <img src="./Images/torrosian-emblem.png/torrosian-emblem.png" alt="Torrosian emblem">
+              <h3>Create Something<br>Legendary</h3>
+              <p>Turn your vision into ink.</p>
+              <button class="gold-btn" data-view="generate">Generate Now</button>
+            </aside>
+          </div>
+          <div class="empty-state" id="emptyGallery">No saved designs yet. Generate a tattoo and save it here.</div>
+        </section>
+<section class="view" id="galleryView">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">TORROSIAN INSPIRATION</span>
+      <h1>Gallery</h1>
+      <p>Explore tattoo concepts built to inspire your next design.</p>
+    </div>
+  </div>
+
+  <div class="showcase-grid">
+    <article class="gallery-card">
+      <div class="showcase-art gallery-skull">
+  <img src="./Images/torrosian-emblem.png/dark-skull.png" alt="Dark Skull tattoo design">
+</div>
+      <div class="gallery-card-info">
+        <span>BLACK & GREY</span>
+        <h3>Dark Skull</h3>
+      </div>
+    </article>
+
+    <article class="gallery-card">
+      <div class="showcase-art gallery-lion">
+  <img src="./Images/torrosian-emblem.png/kings-pride.png" alt="King's Pride realism lion tattoo design">
+</div>
+      <div class="gallery-card-info">
+        <span>REALISM</span>
+        <h3>King's Pride</h3>
+      </div>
+    </article>
+
+    <article class="gallery-card">
+      <div class="showcase-art gallery-wolf">
+  <img src="./Images/torrosian-emblem.png/lone-wolf.png" alt="Fine line Lone Wolf tattoo design">
+  </div>
+  
+      <div class="gallery-card-info">
+        <span>FINE LINE</span>
+        <h3>Lone Wolf</h3>
+      </div>
+    </article>
+  </div>
+</section>
+        
+
+       <section class="view" id="stylesView">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">VISUAL LANGUAGE</span>
+      <h1>Styles</h1>
+      <p>Choose the aesthetic direction for your tattoo concepts.</p>
+    </div>
+  </div>
+
+  <div class="option-grid" id="styleCards"></div>
+</section>
+
+        <section class="view" id="placementsView">
+          <div class="section-heading"><div><span class="eyebrow">BODY PLACEMENT</span><h2>Placements</h2><p>Plan concepts around the shape and flow of the body.</p></div></div>
+          <div class="option-grid" id="placementCards"></div>
+        </section>
+
+        <section class="view" id="settingsView">
+
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">ACCOUNT & PREFERENCES</span>
+      <h1>Settings</h1>
+      <p>Manage your Torrosian account, billing, notifications, and tattoo preferences.</p>
+    </div>
+  </div>
+
+  <div class="settings-dashboard">
+
+    <!-- ACCOUNT -->
+    <div class="settings-card">
+      <span class="eyebrow">ACCOUNT</span>
+      <h2>Sign In</h2>
+      <p>Sign in to save your designs, manage payments, and access your account.</p>
+
+      <div class="settings-actions">
+        <button class="gold-btn" id="googleLoginBtn">
+          Continue with Google
+        </button>
+
+        <button class="ghost-btn" id="appleLoginBtn" style="display: none;">
+          Continue with Apple
+        </button>
+      </div>
+
+      <div class="settings-divider">
+        <span>OR</span>
+      </div>
+
+      <label>
+        Email Address
+        <input
+          id="accountEmail"
+          type="email"
+          placeholder="you@example.com"
+        >
+      </label>
+
+      <label>
+        Password
+        <input
+          id="accountPassword"
+          type="password"
+          placeholder="Enter your password"
+        >
+      </label>
+
+      <div class="settings-actions">
+        <button class="gold-btn" id="emailLoginBtn">
+          Sign In
+        </button>
+
+        <button class="ghost-btn" id="createAccountBtn">
+          Create Account
+        </button>
+
+      <button class="ghost-btn" id="signOutBtn" style="display: none;">
+  Sign Out
+</button>
+    </div>
+
+    <!-- BILLING -->
+    <div class="settings-card">
+      <span class="eyebrow">BILLING</span>
+      <h2>Payment & Plan</h2>
+      <p>Manage your payment method, subscription, and transaction history.</p>
+
+      <div class="account-row">
+        <div>
+          <strong>Current Plan</strong>
+          <p id="currentPlanText">Free Plan</p>
+        </div>
+
+        <div class="plan-actions">
+  <button class="gold-btn" id="goldPlanBtn">
+    Torrosian Gold — $9.99/month
+  </button>
+
+  <button class="ghost-btn" id="platinumPlanBtn">
+    Torrosian Platinum — $19.99/month
+  </button>
+</div>
+
+      <div class="account-row">
+        <div>
+          <strong>Payment Method</strong>
+          <p id="paymentMethodText">No payment method added</p>
+        </div>
+
+        <button class="ghost-btn" id="paymentMethodBtn">
+          Add Payment Method
+        </button>
+      </div>
+
+      <button class="ghost-btn" id="billingHistoryBtn">
+        View Billing History
+      </button>
+    </div>
+
+
+    <!-- NOTIFICATIONS -->
+    <div class="settings-card">
+      <span class="eyebrow">NOTIFICATIONS</span>
+      <h2>Email Notifications</h2>
+      <p>Choose which Torrosian emails you receive.</p>
+
+      <label class="settings-toggle-row">
+        <span>
+          <strong>Login & Security</strong>
+          <small>Receive alerts when your account is accessed.</small>
+        </span>
+        <input type="checkbox" id="securityNotifications" checked>
+      </label>
+
+      <label class="settings-toggle-row">
+        <span>
+          <strong>Payment Transactions</strong>
+          <small>Receipts, purchases, refunds, and failed payments.</small>
+        </span>
+        <input type="checkbox" id="paymentNotifications" checked>
+      </label>
+
+      <label class="settings-toggle-row">
+        <span>
+          <strong>Torrosian Updates</strong>
+          <small>New features, releases, and product announcements.</small>
+        </span>
+        <input type="checkbox" id="productNotifications">
+      </label>
+    </div>
+
+
+    <!-- TATTOO PREFERENCES -->
+    <div class="settings-card">
+      <span class="eyebrow">TATTOO STUDIO</span>
+      <h2>Generation Preferences</h2>
+
+      <label>
+        Default Style
+        <select id="defaultStyle">
+          <option>Black & Grey Realism</option>
+          <option>Color Realism</option>
+          <option>Fine Line</option>
+          <option>Traditional</option>
+          <option>Neo-Traditional</option>
+          <option>Japanese</option>
+          <option>Chicano</option>
+          <option>Geometric</option>
+          <option>Lettering</option>
+        </select>
+      </label>
+
+      <label>
+        Default Placement
+        <select id="defaultPlacement">
+          <option>Full Pec</option>
+          <option>Forearm</option>
+          <option>Upper Arm</option>
+          <option>Full Sleeve</option>
+          <option>Back</option>
+          <option>Neck</option>
+          <option>Hand</option>
+          <option>Thigh</option>
+          <option>Calf</option>
+        </select>
+      </label>
+
+      <button class="gold-btn" id="saveSettingsBtn">
+        Save Settings
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+        <div class="mountain-scene" aria-hidden="true">
+          <div class="mountain m1"></div><div class="mountain m2"></div><div class="mountain m3"></div><div class="mountain m4"></div>
+          <div class="mountain-glow"></div>
+          <div class="forever-line"><i></i><span>SOME IDEAS STAY FOREVER</span><i></i></div>
+        </div>
+      </main>
+    </div>
+  </div>
+<div class="design-preview-modal hidden" id="designPreviewModal">
+  <div class="preview-backdrop" id="previewBackdrop"></div>
+
+  <div class="preview-panel">
+    <button class="preview-close" id="previewClose">×</button>
+
+    <div class="preview-image-wrap">
+      <img id="previewImage" src="" alt="Tattoo design preview">
+    </div>
+
+    <div class="preview-details">
+      <span class="eyebrow">TORROSIAN DESIGN</span>
+      <h2 id="previewTitle">Tattoo Design</h2>
+      <p id="previewInfo"></p>
+
+      <div class="preview-actions">
+        <a id="previewDownload" class="gold-btn" href="" download>Download</a>
+        <button id="previewRefine" class="ghost-btn">Refine This Design</button>
+        <button id="previewDelete" class="ghost-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
