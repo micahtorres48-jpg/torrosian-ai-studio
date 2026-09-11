@@ -17,7 +17,7 @@ const supabase = createClient(
 const app = express();
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, "..")));
+app.use(express.static(__dirname));
 
 app.use(
   "/stripe-webhook",
@@ -29,10 +29,6 @@ app.use(express.json({ limit: "10mb" }));
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-});
-
-app.get("/", (req, res) => {
-  res.send("Torrosian AI server is running.");
 });
 
 app.post("/generate-tattoo", async (req, res) => {
