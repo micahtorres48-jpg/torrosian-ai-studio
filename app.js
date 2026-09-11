@@ -281,7 +281,7 @@ if (createAccountBtn) {
     }
 
     try {
-      const response = await fetch("//signup", {
+      const response = await fetch("/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -317,7 +317,7 @@ if (emailLoginBtn) {
     }
 
     try {
-      const response = await fetch("//login", {
+      const response = await fetch("/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -390,7 +390,7 @@ const googleLoginBtn = document.querySelector("#googleLoginBtn");
 if (googleLoginBtn) {
   googleLoginBtn.addEventListener("click", async () => {
     try {
-      const response = await fetch("//auth/google");
+      const response = await fetch("/auth/google");
       const data = await response.json();
 
       if (!response.ok) {
@@ -418,7 +418,7 @@ if (!accessToken) {
   return;
 }
     const response = await fetch(
-      "//create-checkout-session",
+      "/create-checkout-session",
       {
         method: "POST",
         headers: {
