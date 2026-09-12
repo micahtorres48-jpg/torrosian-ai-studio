@@ -271,7 +271,7 @@ metadata: {
     });
   }
 });
-app.post("/stripe-webhook", (req, res) => {
+app.post("/stripe-webhook", async (req, res) => {
   const signature = req.headers["stripe-signature"];
 
   let event;
@@ -287,18 +287,60 @@ app.post("/stripe-webhook", (req, res) => {
     return res.status(400).send(`Webhook Error: ${error.message}`);
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
+  try {
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
 
-    console.log("Stripe subscription checkout completed:", {
-      userId: session.metadata?.user_id,
-      plan: session.metadata?.plan,
-      customer: session.customer,
-      subscription: session.subscription,
+      const userId = session.metadata?.user_id;
+      const plan = session.metadata?.plan;
+
+      if (!userId || !plan) {
+        throw new Error("Checkout session is missing user_id or plan metadata.");
+      }
+
+      let subscriptionStatus = "active";
+
+      if (session.subscription) {
+        const subscription = await stripe.subscriptions.retrieve(
+          session.subscription
+        );
+
+        subscriptionStatus = subscription.status;
+      }
+
+      const { error: profileError } = await supabaseAdmin
+        .from("profiles")
+        .upsert(
+          {
+            id: userId,
+            plan: plan,
+            stripe_customer_id: session.customer,
+            stripe_subscription_id: session.subscription,
+            subscription_status: subscriptionStatus,
+          },
+          {
+            onConflict: "id",
+          }
+        );
+
+      if (profileError) {
+        throw profileError;
+      }
+
+      console.log("Torrosian subscription activated:", {
+        userId,
+        plan,
+        status: subscriptionStatus,
+      });
+    }
+
+    return res.json({ received: true });
+  } catch (error) {
+    console.error("Stripe webhook processing error:", error);
+    return res.status(500).json({
+      error: "Unable to process Stripe webhook.",
     });
   }
-
-  res.json({ received: true });
 });
 const PORT = process.env.PORT || 3000;
 
