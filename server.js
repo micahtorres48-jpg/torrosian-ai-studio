@@ -390,7 +390,32 @@ app.post("/stripe-webhook", async (req, res) => {
   }
 });
 const PORT = process.env.PORT || 3000;
+if (event.type === "customer.subscription.updated") {
+  const subscription = event.data.object;
 
+  const { error } = await supabaseAdmin
+    .from("profiles")
+    .update({
+      subscription_status: subscription.status,
+    })
+    .eq("stripe_subscription_id", subscription.id);
+
+  if (error) throw error;
+}
+
+if (event.type === "customer.subscription.deleted") {
+  const subscription = event.data.object;
+
+  const { error } = await supabaseAdmin
+    .from("profiles")
+    .update({
+      plan: "free",
+      subscription_status: "canceled",
+    })
+    .eq("stripe_subscription_id", subscription.id);
+
+  if (error) throw error;
+}
 app.listen(PORT, () => {
   console.log(`Torrosian AI server running on http://localhost:${PORT}`);
 });
