@@ -271,6 +271,53 @@ metadata: {
     });
   }
 });
+app.get("/subscription-status", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    const accessToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.slice(7)
+      : null;
+
+    if (!accessToken) {
+      return res.status(401).json({
+        error: "You must be signed in.",
+      });
+    }
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(accessToken);
+
+    if (authError || !user) {
+      return res.status(401).json({
+        error: "Your login session is invalid or expired.",
+      });
+    }
+
+    const { data: profile, error: profileError } = await supabaseAdmin
+      .from("profiles")
+      .select("plan, subscription_status")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (profileError) {
+      throw profileError;
+    }
+
+    return res.json({
+      plan: profile?.plan || "free",
+      subscription_status: profile?.subscription_status || "inactive",
+    });
+  } catch (error) {
+    console.error("Subscription status error:", error);
+
+    return res.status(500).json({
+      error: "Unable to load subscription status.",
+    });
+  }
+});
 app.post("/stripe-webhook", async (req, res) => {
   const signature = req.headers["stripe-signature"];
 
