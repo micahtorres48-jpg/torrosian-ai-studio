@@ -50,9 +50,22 @@ if (referenceFile) {
     reader.readAsDataURL(referenceFile);
   });
 }
+    const session = JSON.parse(
+  localStorage.getItem("torrosianSession") || "null"
+);
+
+const accessToken = session?.access_token;
+
+if (!accessToken) {
+  alert("Please sign in before generating a tattoo.");
+  return;
+}
     const response = await fetch("/generate-tattoo", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${accessToken}`,
+},
       body: JSON.stringify({
         description,
         style: $("#style").value,
