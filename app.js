@@ -457,3 +457,36 @@ if (platinumPlanBtn) {
     startStripeCheckout("platinum");
   });
 }
+
+async function loadSubscriptionStatus() {
+  const session = JSON.parse(localStorage.getItem("torrosianSession") || "null");
+
+  if (!session?.access_token) return;
+
+  try {
+    const response = await fetch("/subscription-status", {
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    });
+
+    if (!response.ok) return;
+
+    const data = await response.json();
+    const currentPlan = document.querySelector("#currentPlan");
+
+    if (currentPlan) {
+      if (data.plan === "gold") {
+        currentPlan.textContent = "Torrosian Gold — $9.99/month";
+      } else if (data.plan === "platinum") {
+        currentPlan.textContent = "Torrosian Platinum — $19.99/month";
+      } else {
+        currentPlan.textContent = "Free Plan";
+      }
+    }
+  } catch (error) {
+    console.error("Unable to load subscription status:", error);
+  }
+}
+
+loadSubscriptionStatus();
