@@ -42,6 +42,48 @@ const openai = new OpenAI({
 
 app.post("/generate-tattoo", async (req, res) => {
   try {
+    const authHeader = req.headers.authorization;
+
+const accessToken = authHeader?.startsWith("Bearer ")
+  ? authHeader.slice(7)
+  : null;
+
+if (!accessToken) {
+  return res.status(401).json({
+    error: "Please sign in to generate tattoos.",
+  });
+}
+
+const {
+  data: { user },
+  error: authError,
+} = await supabase.auth.getUser(accessToken);
+
+if (authError || !user) {
+  return res.status(401).json({
+    error: "Your login session is invalid or expired.",
+  });
+}
+
+const { data: profile, error: profileError } = await supabaseAdmin
+  .from("profiles")
+  .select("plan, subscription_status")
+  .eq("id", user.id)
+  .maybeSingle();
+
+if (profileError) {
+  throw profileError;
+}
+
+const hasPaidPlan =
+  (profile?.plan === "gold" || profile?.plan === "platinum") &&
+  ["active", "trialing"].includes(profile?.subscription_status);
+
+if (!hasPaidPlan) {
+  return res.status(403).json({
+    error: "A Torrosian Gold or Platinum subscription is required to generate tattoos.",
+  });
+}
     const {
       description,
       style,
