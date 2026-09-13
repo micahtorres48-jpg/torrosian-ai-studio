@@ -381,15 +381,6 @@ app.post("/stripe-webhook", async (req, res) => {
       });
     }
 
-    return res.json({ received: true });
-  } catch (error) {
-    console.error("Stripe webhook processing error:", error);
-    return res.status(500).json({
-      error: "Unable to process Stripe webhook.",
-    });
-  }
-});
-const PORT = process.env.PORT || 3000;
 if (event.type === "customer.subscription.updated") {
   const subscription = event.data.object;
 
@@ -416,6 +407,19 @@ if (event.type === "customer.subscription.deleted") {
 
   if (error) throw error;
 }
+    
+    return res.json({ received: true });
+  } catch (error) {
+    console.error("Stripe webhook processing error:", error);
+    return res.status(500).json({
+      error: "Unable to process Stripe webhook.",
+    });
+  }
+});
+const PORT = process.env.PORT || 3000;
+
+
+
 app.listen(PORT, () => {
   console.log(`Torrosian AI server running on http://localhost:${PORT}`);
 });
